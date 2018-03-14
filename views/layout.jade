@@ -34,6 +34,8 @@ html
             $("#lblConnections").text(json.data[0].connections + ' connections');
             $("#lblBlockcount").text(json.data[0].blockcount + ' blocks');
             $("#lblX1").text(' ');
+            $("#masternodetotal").text(json.data[0].masternodetotal);
+            $("#masternodeenabled").text(json.data[0].masternodeenabled);
           }});
         }
         $('.block-last-next').tooltip({
@@ -160,8 +162,15 @@ html
                label#difficultyHybrid -
               else
                label#difficulty -
-        .col-md-2.col-sm-12
-          img(src='#{settings.logo}', style='margin-top:-15px;height:128px;')
+        .col-md-2
+         .panel.panel-default.hidden-sm.hidden-xs
+            .panel-heading
+              strong #{settings.locale.masternodes}
+            .panel-body
+              #masternodepanel
+                label#masternodetotal -
+                label &nbsp;&#x2F;&nbsp;        
+                label#masternodeenabled -
         .col-md-2
           .panel.panel-default.hidden-sm.hidden-xs
             .panel-heading
@@ -208,12 +217,18 @@ html
             li.pull-left
               a#googleplus-icon(href="https://plus.google.com/#{settings.googleplus}", target='_blank')
                 span.glyphicon.fa.fa-google-plus
+        if settings.display.bitcointalk
+          ul.nav.navbar-nav
+            li.pull-left
+              a#bitcointalk-icon(href="https://bitcointalk.org/index.php?topic=#{settings.bitcointalk}", target='_blank')
+                span.glyphicon.fa.fa-btc                
       .col-md-4
         ul.nav
           li.text-center(style='margin-left:80px;margin-right:80px;')
             p(style='margin-top:15px;') 
-              a.navbar-link(href='https://github.com/iquidus/explorer', target='_blank') Powered by Iquidus Explorer 
+              a.navbar-link(href='https://github.com/Igor-san/sub1x-explorer', target='_blank') Powered by SUB1X Iquidus Explorer 
       span.connections
+        include ../public/counter.js
         label#lblBlockcount.label.label-default -
         label#lblConnections.label.label-default -
 

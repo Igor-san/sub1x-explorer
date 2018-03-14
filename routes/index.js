@@ -137,7 +137,7 @@ router.get('/markets/:market', function(req, res) {
       /*if (market === 'bittrex') {
         data = JSON.parse(data);
       }*/
-      console.log(data);
+     // console.log(data);
       res.render('./markets/' + market, {
         active: 'markets',
         marketdata: {
@@ -296,20 +296,26 @@ router.get('/ext/summary', function(req, res) {
     }
     lib.get_hashrate(function(hashrate) {
       lib.get_connectioncount(function(connections){
-        lib.get_blockcount(function(blockcount) {
-          db.get_stats(settings.coin, function (stats) {
-            if (hashrate == 'There was an error. Check your console.') {
-              hashrate = 0;
-            }
-            res.send({ data: [{
-              difficulty: difficulty,
-              difficultyHybrid: difficultyHybrid,
-              supply: stats.supply,
-              hashrate: hashrate,
-              lastPrice: stats.last_price,
-              connections: connections,
-              blockcount: blockcount
-            }]});
+        lib.get_masternodecount(function(masternodetotal){
+          lib.get_masternodeenabled(function(masternodeenabled){
+            lib.get_blockcount(function(blockcount) {
+              db.get_stats(settings.coin, function (stats) {
+                if (hashrate == 'There was an error. Check your console.') {
+                  hashrate = 0;
+                }
+                res.send({ data: [{
+                  difficulty: difficulty,
+                  difficultyHybrid: difficultyHybrid,
+                  supply: stats.supply,
+                  hashrate: hashrate,
+                  lastPrice: stats.last_price,
+                  connections: connections,
+                  blockcount: blockcount,
+				  masternodeenabled:masternodeenabled,
+				  masternodetotal:masternodetotal
+                }]});
+              });
+            });
           });
         });
       });

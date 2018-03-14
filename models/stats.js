@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
  
 var StatsSchema = new Schema({
-  coin: { type: String },
+  coin: { type: String, index: { unique: true } },
   count: { type: Number, default: 1 },
   last: { type: Number, default: 1 },
   //difficulty: { type: Object, default: {} },

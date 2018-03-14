@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
   , Schema = mongoose.Schema;
  
 var HeavySchema = new Schema({
-  coin: { type: String },
+  coin: { type: String , index: { unique: true }},
   lvote: { type: Number, default: 0 },
   reward: { type: Number, default: 0 },
   supply: { type: Number, default: 0 },

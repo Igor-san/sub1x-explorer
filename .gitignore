@@ -30,3 +30,7 @@ settings.json
 *.ico
 *.png
 
+start.bat
+update.bat
+peers.bat
+market.bat

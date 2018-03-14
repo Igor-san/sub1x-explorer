@@ -118,6 +118,32 @@ dbString = dbString + '@' + settings.dbsettings.address;
 dbString = dbString + ':' + settings.dbsettings.port;
 dbString = dbString + '/' + settings.dbsettings.database;
 
+//#region Перехватываем отмену задачи CTRL-C
+if (process.platform === "win32") { //так понимаю имитация в винде сигнала прерывания
+  var rl = require("readline").createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  rl.on("SIGINT", function () {
+    process.emit("SIGINT");
+  });
+}
+
+process.on("SIGINT", function () {
+  //graceful shutdown   process.exit();
+  exit();
+});
+//#endregion
+
+//перехватываем вылеты и удаляем процесс
+var d = require('domain').create()
+d.on('error', function(err){
+    // handle the error safely  
+    console.log("Index error: "+err)
+    exit();
+})
+
 is_locked(function (exists) {
   if (exists) {
     console.log("Script already running..");
@@ -131,6 +157,9 @@ is_locked(function (exists) {
           console.log('Aborting');
           exit();
         } else if (database == 'index') {
+//#region  добавил обратку вылета чтобы корректно удаляд файл процесса
+ // catch the uncaught errors in this asynchronous or synchronous code block
+ d.run(function(){          
           db.check_stats(settings.coin, function(exists) {
             if (exists == false) {
               console.log('Run \'npm start\' to create database structures before running this script.');
@@ -191,6 +220,8 @@ is_locked(function (exists) {
               });
             }
           });
+        }) 
+        //#endregion 
         } else {
           //update markets
           var markets = settings.markets.enabled;
