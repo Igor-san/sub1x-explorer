@@ -24,6 +24,6 @@
     "qr-image": "~2.0.0"
   },
   "devDependencies": {
-    "jasmine": "~2.1.0"
+    "jasmine": "^2.1.1"
   }
 }
